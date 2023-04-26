@@ -1,0 +1,98 @@
+# MeteoMan-Station
+
+
+
+## Raspberry setup
+
+**raspi-config**
+
+```sh
+sudo raspi-config
+	3 Interface Options
+		I6 Serial Port
+			login shell <No>
+			hardware enable <Yes>
+	5 Localisation Options
+		L2 Timezone
+```
+
+
+
+add usr libs to ldconf
+
+```sh
+sudo ldconfig /usr/local/lib
+```
+
+
+
+**pigpio**
+
+http://abyz.me.uk/rpi/pigpio/download.html
+
+```bash
+sudo apt install python3-distutils
+wget https://github.com/joan2937/pigpio/archive/master.zip
+unzip master.zip
+cd pigpio-master
+make
+sudo make install
+```
+
+
+
+**libcurl**
+
+https://curl.se/libcurl/c/http-post.html
+
+```bash
+sudo apt install libcurl4-openssl-dev
+```
+
+
+
+**libmodbus**
+
+https://libmodbus.org/getting_started/
+
+```bash
+wget https://github.com/stephane/libmodbus/releases/download/v3.1.8/libmodbus-3.1.8.tar.gz
+tar -xvf libmodbus-3.1.8.tar.gz
+cd libmodbus-3.1.8
+./configure
+make
+sudo make install
+```
+
+
+
+Find serial port:
+
+```sh
+ls -l /dev/serial*
+```
+
+
+
+## Build
+
+Use VSCode with CMake plugin.
+
+Use Terminal:
+
+**on Mac**
+
+```shell
+cmake -S . --preset mac2rpi-debug
+cd ./build/mac2rpi-debug
+ninja
+```
+
+**on rpi**
+
+```sh
+cmake -S . -B build/rpi-debug -G Ninja -DCMAKE_BUILD_TYPE:STRING=Debug
+cd build/rpi-debug
+ninja
+```
+
