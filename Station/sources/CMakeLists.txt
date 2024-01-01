@@ -1,7 +1,5 @@
 cmake_minimum_required(VERSION 3.18)
 
-#add_subdirectory(Logger)
-
 set(meteo_src_files 
     bucket.cpp
     cwt_modbus.cpp
@@ -24,6 +22,5 @@ target_link_libraries(  meteoman_app PRIVATE
                                             curl
                                             ${modbuslib}
                                             ${pigpiolib}
-                                            #logger
                                             fmt
                     )

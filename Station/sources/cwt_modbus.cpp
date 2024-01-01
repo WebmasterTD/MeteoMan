@@ -1,5 +1,5 @@
 #include "cwt_modbus.h"
-#include <stdexcept>
+#include <fmt/core.h>
 #define SENSOR_ID       0x01
 #define HUMID           0x00
 #define TEMP            0x01
@@ -27,21 +27,21 @@ ReturnCode cwt_modbus::init(const std::string& sSection)
     modbus_ctx = modbus_new_rtu(port.c_str(), baud_rate, parity, databits, stopbits);
     if (modbus_ctx == NULL)
     {
-        perror("modbus_new_rtu: failed!\n");
+        fmt::print(stderr, "modbus_new_rtu: failed!\n");
         errno = ECONNREFUSED;
         return ReturnCode::ERROR;
     }
 
     if (modbus_set_slave(modbus_ctx, SENSOR_ID) == -1)
     {
-        fprintf(stderr, "Invalid slave ID: %s\n", modbus_strerror(errno));
+        fmt::print(stderr, "Invalid slave ID: {}\n", modbus_strerror(errno));
         errno = ECONNREFUSED;
         return ReturnCode::ERROR;
     }
 
     if (modbus_connect(modbus_ctx) == -1)
     {
-        fprintf(stderr, "Connection failed: %s\n", modbus_strerror(errno));
+        fmt::print(stderr, "Connection failed: {}\n", modbus_strerror(errno));
         return ReturnCode::ERROR;
     }
     return ReturnCode::OK;
@@ -56,7 +56,7 @@ ReturnCode cwt_modbus::read_temp(float& temp)
     int ret = modbus_read_registers(modbus_ctx, TEMP, 2, reg_buf);
     if (ret == -1)
     {
-        fprintf(stderr, "Read temperature registers failed: %s\n", modbus_strerror(errno));
+        fmt::print(stderr, "Read temperature registers failed: {}\n", modbus_strerror(errno));
         return ReturnCode::ERROR;
     }
     temp = (reg_buf[0] / 10.0);
@@ -73,7 +73,7 @@ ReturnCode cwt_modbus::read_humid(float& humid)
     int ret = modbus_read_registers(modbus_ctx, HUMID, 2, reg_buf);
     if (ret == -1)
     {
-        fprintf(stderr, "Read humidity registers failed: %s\n", modbus_strerror(errno));
+        fmt::print(stderr, "Read humidity registers failed: {}\n", modbus_strerror(errno));
         return ReturnCode::ERROR;
     }
     humid = (reg_buf[0] / 10.0);

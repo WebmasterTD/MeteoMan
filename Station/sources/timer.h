@@ -6,7 +6,6 @@
 
 class timer
 {
-    // uint m_nMinutes;
     int64_t m_nWaitTime;
     INIReader m_oConfReader;
 public:

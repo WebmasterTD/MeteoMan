@@ -12,7 +12,7 @@
         int _ret  = x;   \
         if (_ret < 0)    \
         {                \
-            fmt::print("err: {}\n", _ret) \
+            fmt::print(stderr, "err: {}\n", _ret) \
             return _ret; \
         }                \
     }                    \

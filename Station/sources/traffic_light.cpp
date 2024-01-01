@@ -14,30 +14,30 @@ ReturnCode traffic_light::init(const std::string& sSection)
     m_nRedLed = m_oConfReader.GetInteger(sSection, "red_led", -1);
     if ((m_nGreenLed == -1) || (m_nYellowLed == -1) || (m_nRedLed == -1))
     {
-        fmt::print("Failed INI read\n");
-        fmt::print("m_nGreenLed:{}\n",m_nGreenLed);
-        fmt::print("m_nYellowLed:{}\n",m_nYellowLed);
-        fmt::print("m_nRedLed:{}\n",m_nRedLed);
+        fmt::print(stderr, "Failed INI read\n");
+        fmt::print(stderr, "m_nGreenLed:{}\n",m_nGreenLed);
+        fmt::print(stderr, "m_nYellowLed:{}\n",m_nYellowLed);
+        fmt::print(stderr, "m_nRedLed:{}\n",m_nRedLed);
         return ReturnCode::ERROR;
     }
     if (gpioInitialise() ==  PI_INIT_FAILED)
     {
-        fmt::print("Failed GPIOInit\n");
+        fmt::print(stderr, "Failed GPIOInit\n");
         return ReturnCode::ERROR;
     }
     if (gpioSetMode(m_nGreenLed, PI_OUTPUT) != 0)
     {
-        fmt::print("Failed SetMode Green\n");
+        fmt::print(stderr, "Failed SetMode Green\n");
         return ReturnCode::ERROR;
     }
     if (gpioSetMode(m_nYellowLed, PI_OUTPUT) != 0)
     {
-        fmt::print("Failed SetMode Yellow\n");
+        fmt::print(stderr, "Failed SetMode Yellow\n");
         return ReturnCode::ERROR;
     }
     if (gpioSetMode(m_nRedLed, PI_OUTPUT) != 0)
     {
-        fmt::print("Failed SetMode Red\n");
+        fmt::print(stderr, "Failed SetMode Red\n");
         return ReturnCode::ERROR;
     }
     set_state(state::XXX);
