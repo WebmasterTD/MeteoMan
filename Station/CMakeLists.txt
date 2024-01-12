@@ -16,4 +16,27 @@ FetchContent_Declare(external-fmt
 )
 FetchContent_MakeAvailable(external-fmt)
 
-add_subdirectory(sources)
+find_library(modbuslib modbus PATHS ${SYSTEM_LOCAL})
+find_library(pigpiolib pigpio PATHS ${SYSTEM_LOCAL})
+
+set(meteo_src_files 
+    sources/bucket.cpp
+    sources/cwt_modbus.cpp
+    sources/http_comm.cpp
+    sources/meteoman.cpp
+    sources/logic.cpp
+    sources/timer.cpp
+    sources/tick.cpp
+    sources/traffic_light.cpp
+)
+
+target_sources(meteoman_app PRIVATE ${meteo_src_files})
+target_include_directories(meteoman_app PRIVATE extern)
+target_link_libraries(  meteoman_app PRIVATE
+                                            stdc++
+                                            pthread
+                                            rt
+                                            curl
+                                            ${modbuslib}
+                                            ${pigpiolib}
+                                            fmt)

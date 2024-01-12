@@ -5,7 +5,7 @@
 #include "bucket.h"
 #include "traffic_light.h"
 #include "timer.h"
-
+#include "tick.h"
 
 #define INIT_OK(x)      \
     {                    \
@@ -22,13 +22,11 @@ class Logic
 public:
     ReturnCode init();
     void loop();
-    void error();
 private:
     cwt_modbus      m_oSensor;
     http_comm       m_oHttp;
     bucket          m_oBucket;
     traffic_light   m_oTrafficLight;
-    timer           m_oTimer; 
 };
 
 #endif //__LOGIC_H__ 

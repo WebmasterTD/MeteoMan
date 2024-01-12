@@ -18,7 +18,7 @@ sudo raspi-config
 
 
 
-add usr libs to ldconf
+add usr libs to [ldconfig](https://linux.die.net/man/8/ldconfig)
 
 ```sh
 sudo ldconfig /usr/local/lib
@@ -56,6 +56,10 @@ sudo apt install libcurl4-openssl-dev
 https://libmodbus.org/getting_started/
 
 ```bash
+sudo apt install libmodbus5
+
+or
+
 wget https://github.com/stephane/libmodbus/releases/download/v3.1.8/libmodbus-3.1.8.tar.gz
 tar -xvf libmodbus-3.1.8.tar.gz
 cd libmodbus-3.1.8
