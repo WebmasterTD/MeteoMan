@@ -79,3 +79,20 @@ ReturnCode cwt_modbus::read_humid(float& humid)
     humid = (reg_buf[0] / 10.0);
     return ReturnCode::OK;
 }
+
+ReturnCode cwt_modbus::read_all(float& humid, float& temp)
+{
+    if (modbus_ctx == NULL)
+    {
+        return ReturnCode::ERROR;
+    }
+    int ret = modbus_read_registers(modbus_ctx, 0, 4, reg_buf);
+    if (ret == -1)
+    {
+        fmt::print(stderr, "Read all registers failed: {}\n", modbus_strerror(errno));
+        return ReturnCode::ERROR;
+    }
+    humid = (reg_buf[0] / 10.0);
+    temp = (reg_buf[1] / 10.0);
+    return ReturnCode::OK;
+}

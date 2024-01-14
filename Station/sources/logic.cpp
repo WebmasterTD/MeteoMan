@@ -9,7 +9,6 @@ using namespace std::chrono;
 
 ReturnCode Logic::init()
 {
-    // if(m_oTimer.init("TIMER") == ReturnCode::ERROR) return ReturnCode::ERROR;
     if (m_oSensor.init("MODBUS_RTU") == ReturnCode::ERROR)
         return ReturnCode::ERROR;
     if (m_oHttp.init("HTTP") == ReturnCode::ERROR)
@@ -22,51 +21,60 @@ ReturnCode Logic::init()
     return ReturnCode::OK;
 }
 
-std::chrono::milliseconds get_time()
-{
-    return duration_cast<milliseconds>(system_clock::now().time_since_epoch());
-}
-
 void Logic::loop()
 {
-    // sleep(1);
+    // INIT_TIMER;
     float humidity = 0.0;
     float temperature = 0.0;
     float rain = 0.0;
 
-    milliseconds t0 = get_time();
-    m_oSensor.read_humid(humidity);
-    milliseconds t1 = get_time();
-    m_oSensor.read_temp(temperature);
-    milliseconds t2 = get_time();
+    m_oSensor.read_all(humidity, temperature);
+
     m_oBucket.read(rain);
-    milliseconds t3 = get_time();
 
-    fmt::print("Measured Data: {} | {} | {}\n", std::to_string(humidity), std::to_string(temperature), std::to_string(rain));
+    // fmt::print("Measured Data: {} | {} | {}\n", std::to_string(humidity), std::to_string(temperature), std::to_string(rain));
 
-    // m_oTrafficLight.set_state(traffic_light::XXG);
-    
-    m_oTrafficLight.set_state(traffic_light::XXX);
-    // sleep(1);
-
-    // send data over http with curl
-    // m_oHttp.send_data();
-
-    // for (uint8_t i = 0; i < 8; i++)
-    // {
-    //     m_oTrafficLight.set_state((traffic_light::states)i);
-    //     sleep(1);
-    // }
-
-    // read_bucket;
-    // if()
-    // {
-
-    // }
-    // if(timer_1h_expired)
-    // {
-    //     send_http;
-    // }
-
-    // fmt::print("humid:{} temp:{} bucket:{}\n", (t1-t0).count(), (t2-t1).count(), (t3-t2).count() );
+    switch (m_oHttp.State)
+    {
+        case http_comm::WAIT_FOR_TIMER:
+            if (!m_oHttp.Timer.expired())
+            {
+                break;
+            }
+            m_oHttp.State = http_comm::SEND_HTTP;
+            [[fallthrough]];
+        case http_comm::SEND_HTTP:
+        {
+            http_data data =
+                {
+                    .temperature = temperature,
+                    .humidity = humidity,
+                    .rain = rain};
+            data.timestamp = time(nullptr);
+            m_oHttpReply = std::async(&http_comm::send_data, &m_oHttp, data);
+            m_oHttp.State = http_comm::WAIT_FOR_HTTP;
+            break;
+        }
+        case http_comm::WAIT_FOR_HTTP:
+            if (!m_oHttpReply.valid())
+            {
+                break;
+            }
+            m_oHttp.State = http_comm::GET_REPLY;
+            [[fallthrough]];
+        case http_comm::GET_REPLY:
+            if (m_oHttpReply.get() != ReturnCode::OK)
+            {
+                fmt::print("ERROR: HTTP send failed!\n");
+                m_oHttp.State = http_comm::WAIT_FOR_TIMER;
+                // for retry:
+                // m_oHttp.State = http_comm::SEND_HTTP;
+            }
+            else
+            {
+                m_oHttp.State = http_comm::WAIT_FOR_TIMER;
+            }
+            break;
+    }
+    // STOP_TIMER("main_loop");
 }

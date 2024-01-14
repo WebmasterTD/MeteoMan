@@ -10,7 +10,7 @@ void bucket::gpioAlertFunc(int gpio, int level, uint32_t tick)
     if ((gpio == m_nPinGpio ) && (level == 1))
     {
         m_nCounter++;
-        fmt::print("rainbucket: signal recieved {}\n", m_nCounter);
+        // fmt::print("rainbucket: signal recieved {}\n", m_nCounter);
     }
 }
 

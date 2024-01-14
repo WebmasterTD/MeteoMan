@@ -31,7 +31,7 @@ ReturnCode tick::init(timeval interval, bool blocking)
         time_t curr_time = time(nullptr);
         time_t next_time = curr_time - (curr_time % m_nTickInterval.tv_sec) + m_nTickInterval.tv_sec;
 
-        new_value.it_value.tv_sec = next_time + 1;
+        new_value.it_value.tv_sec = next_time;
         new_value.it_value.tv_nsec = (m_nTickInterval.tv_usec * 1000);
         tfd_flags |= TFD_TIMER_ABSTIME;
         tfd_flags |= TFD_TIMER_CANCEL_ON_SET;
@@ -92,7 +92,7 @@ ReturnCode tick::wait()
     return ReturnCode::OK;
 }
 
-bool tick::isActive()
+bool tick::expired()
 {
     uint64_t exp = 0;
     ssize_t s = 0;
@@ -110,5 +110,5 @@ bool tick::isActive()
         }
     }
 
-    return (exp == 0);
+    return (exp != 0);
 }

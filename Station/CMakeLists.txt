@@ -39,4 +39,5 @@ target_link_libraries(  meteoman_app PRIVATE
                                             curl
                                             ${modbuslib}
                                             ${pigpiolib}
+                                            # gpiod
                                             fmt)

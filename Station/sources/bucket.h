@@ -1,6 +1,7 @@
 #ifndef __BUCKET_H__
 #define __BUCKET_H__
 #include "meteoman.h"
+// #include <gpiod.h>
 #include <pigpio.h>
 #include "INIReader.h"
 

@@ -13,7 +13,7 @@ class tick
 public:
     ReturnCode init(timeval interval, bool blocking);
     ReturnCode wait();
-    bool isActive();
+    bool expired();
 
 private:
     timeval m_nTickInterval;
