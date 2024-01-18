@@ -48,4 +48,5 @@ classDiagram
 * https://github.com/joan2937/pigpio
 * https://github.com/stephane/libmodbus
 * https://github.com/curl/curl
+* https://libgpiod.readthedocs.io/en/latest/
 

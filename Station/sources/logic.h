@@ -7,37 +7,12 @@
 #include "timer.h"
 #include "tick.h"
 
-#include <future>
-
-#include <chrono>
-
-#define TIMING
-
-#ifdef TIMING
-
-#define INIT_TIMER auto start = std::chrono::high_resolution_clock::now();
-#define START_TIMER                                        \
-    do                                                     \
-    {                                                      \
-        start = std::chrono::high_resolution_clock::now(); \
-    } while (0)
-#define STOP_TIMER(name)                                                                                                                                              \
-    do                                                                                                                                                                \
-    {                                                                                                                                                                 \
-        fmt::print("RUNTIME of {}: {}ms \n", name, std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::high_resolution_clock::now() - start).count()); \
-    } while (0)
-#else
-#define INIT_TIMER
-#define START_TIMER
-#define STOP_TIMER(name)
-#endif
-
 #define INIT_OK(x)                                             \
     {                                                          \
         int _ret = x;                                          \
         if (_ret < 0)                                          \
         {                                                      \
-            fmt::print(stderr, "err: {}\n", _ret) return _ret; \
+            fmt::println(stderr, "err: {}", _ret) return _ret; \
         }                                                      \
     }
 
@@ -50,15 +25,17 @@ public:
 private:
     // MODBUS
     cwt_modbus m_oSensor;
-    // tick m_oModbusTimer;
 
     bucket m_oBucket;
-    traffic_light m_oTrafficLight;
     
+    traffic_light m_oTrafficLight;
+    int state;
+
     // HTTP
     http_comm m_oHttp;
-
+    http_data m_oData;
     std::future<ReturnCode> m_oHttpReply;
+
 };
 
 #endif //__LOGIC_H__

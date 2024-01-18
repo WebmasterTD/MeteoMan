@@ -1,4 +1,5 @@
 #include "cwt_modbus.h"
+#include "INIReader.h"
 #include <fmt/core.h>
 #define SENSOR_ID       0x01
 #define HUMID           0x00
@@ -16,13 +17,13 @@ cwt_modbus::~cwt_modbus()
 
 ReturnCode cwt_modbus::init(const std::string& sSection)
 {
-    m_oConfReader = INIReader(CONFIG_FILENAME);
+    INIReader ConfReader(CONFIG_FILENAME);
 
-    std::string port = m_oConfReader.Get(sSection, "port", "");
-    int baud_rate = m_oConfReader.GetInteger(sSection, "baud_rate", 0);
-    char parity = m_oConfReader.Get(sSection, "parity", "").c_str()[0];
-    int databits = m_oConfReader.GetInteger(sSection, "databits", 0);
-    int stopbits = m_oConfReader.GetInteger(sSection, "stopbits", 0);
+    std::string port = ConfReader.Get(sSection, "port", "");
+    int baud_rate = ConfReader.GetInteger(sSection, "baud_rate", 0);
+    char parity = ConfReader.Get(sSection, "parity", "").c_str()[0];
+    int databits = ConfReader.GetInteger(sSection, "databits", 0);
+    int stopbits = ConfReader.GetInteger(sSection, "stopbits", 0);
 
     modbus_ctx = modbus_new_rtu(port.c_str(), baud_rate, parity, databits, stopbits);
     if (modbus_ctx == NULL)

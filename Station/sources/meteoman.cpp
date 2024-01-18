@@ -1,13 +1,14 @@
 #include "meteoman.h"
 #include "logic.h"
-#include "fmt/core.h"
+#include "INIReader.h"
+#include <fmt/core.h>
 
 using namespace std::chrono_literals;
 using namespace std::chrono;
 
 void InterruptHandler(int signum)
 {
-    fmt::print(stderr, "\ntime to exit!\n");
+    fmt::println(stderr, "\ntime to exit!");
     exit(0);
 }
 
@@ -21,11 +22,19 @@ int main(int argc, char *argv[])
         return -1;
     }
     
+    INIReader ConfReader(CONFIG_FILENAME);
+    uint32_t interval_ms = ConfReader.GetInteger("MAIN", "interval_ms", 100);
 
-    struct timeval period
+    struct timeval period = {};
+    if (interval_ms >= 1000)
     {
-        .tv_sec = 5, .tv_usec = 0
-    };
+        period.tv_sec = interval_ms / 1000;
+        period.tv_usec = (interval_ms % 1000) * 1000;
+    }
+    else
+    {
+        period.tv_usec = interval_ms * 1000;
+    }
 
     if (main_tick.init(period, true) == ReturnCode::ERROR)
     {

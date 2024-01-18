@@ -1,4 +1,5 @@
 #include "timer.h"
+#include "INIReader.h"
 #include <ctime>
 #include <unistd.h>
 #include <thread> 
@@ -6,9 +7,9 @@
 
 ReturnCode timer::init(const std::string& sSection)
 {
-    m_oConfReader = INIReader(CONFIG_FILENAME);
+    INIReader ConfReader(CONFIG_FILENAME);
 
-    long nInterval = m_oConfReader.GetInteger(sSection, "interval", -1);
+    long nInterval = ConfReader.GetInteger(sSection, "interval", -1);
     m_nWaitTime  = nInterval * 60;
 
     return ReturnCode::OK;

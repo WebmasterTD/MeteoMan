@@ -8,7 +8,7 @@
             "generator": "Ninja Multi-Config",
             "binaryDir": "${sourceDir}/out/build/${presetName}",
             "cacheVariables": {
-                "CMAKE_TOOLCHAIN_FILE": "/Users/akosmelczer/raspberry-sysroot/old/raspberry_clang.cmake"
+                "CMAKE_TOOLCHAIN_FILE": "/Users/akosmelczer/raspberry-sysroot/new/raspberry_clang.cmake"
             }
         },
         {

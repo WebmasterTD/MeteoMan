@@ -12,12 +12,12 @@ configure_file(config/config.ini ${CMAKE_BINARY_DIR}/ COPYONLY)
 
 FetchContent_Declare(external-fmt
     GIT_REPOSITORY  https://github.com/fmtlib/fmt
-    GIT_TAG         9.1.0
+    GIT_TAG         10.2.1
 )
 FetchContent_MakeAvailable(external-fmt)
 
 find_library(modbuslib modbus PATHS ${SYSTEM_LOCAL})
-find_library(pigpiolib pigpio PATHS ${SYSTEM_LOCAL})
+
 
 set(meteo_src_files 
     sources/bucket.cpp
@@ -32,12 +32,12 @@ set(meteo_src_files
 
 target_sources(meteoman_app PRIVATE ${meteo_src_files})
 target_include_directories(meteoman_app PRIVATE extern)
+target_link_directories(meteoman_app PRIVATE ${CMAKE_SYSROOT}/lib/gcc/arm-linux-gnueabihf)
 target_link_libraries(  meteoman_app PRIVATE
                                             stdc++
                                             pthread
                                             rt
                                             curl
                                             ${modbuslib}
-                                            ${pigpiolib}
-                                            # gpiod
+                                            gpiodcxx
                                             fmt)

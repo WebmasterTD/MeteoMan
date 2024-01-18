@@ -21,7 +21,7 @@ ReturnCode tick::init(timeval interval, bool blocking)
     m_nTimerFd = timerfd_create(CLOCK_REALTIME, tim_flags);
     if (m_nTimerFd == -1)
     {
-        fmt::print(stderr, "timerfd_create! - {}\n", strerror(errno));
+        fmt::println(stderr, "timerfd_create! - {}", strerror(errno));
         return ReturnCode::ERROR;
     }
     int tfd_flags = 0;
@@ -47,7 +47,7 @@ ReturnCode tick::init(timeval interval, bool blocking)
 
     if (timerfd_settime(m_nTimerFd, tfd_flags, &new_value, NULL) == -1)
     {
-        fmt::print(stderr, "timerfd_settime - {}\n", strerror(errno));
+        fmt::println(stderr, "timerfd_settime - {}", strerror(errno));
         return ReturnCode::ERROR;
     }
     return ReturnCode::OK;
@@ -70,14 +70,14 @@ ReturnCode tick::wait()
                 break;
             case ECANCELED:
             {
-                fmt::print(stderr, "Tick clock time changed\n");
+                fmt::println(stderr, "Tick clock time changed");
                 ReturnCode ret = this->init(m_nTickInterval, m_bBlocking);
                 if (ret != ReturnCode::OK)
                     return ret;
                 break;
             }
             default:
-                fmt::print(stderr, "error read timerfd {} {}\n", s, strerror(errsv));
+                fmt::println(stderr, "error read timerfd {} {}", s, strerror(errsv));
                 return ReturnCode::ERROR;
             }
         }
@@ -85,7 +85,7 @@ ReturnCode tick::wait()
 
     if (exp != 1)
     {
-        fmt::print(stderr, "cycletime exceeded tick rate: {}!\n", exp);
+        fmt::println(stderr, "cycletime exceeded tick rate: {}!", exp);
         return ReturnCode::ERROR;
     }
 
@@ -106,7 +106,7 @@ bool tick::expired()
             case EAGAIN:
                 break;
             default:
-                fmt::print(stderr, "error read timerfd {} {}\n", s, strerror(errsv));
+                fmt::println(stderr, "error read timerfd {} {}", s, strerror(errsv));
         }
     }
 

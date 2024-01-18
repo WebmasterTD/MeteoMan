@@ -21,6 +21,9 @@ sudo raspi-config
 add usr libs to [ldconfig](https://linux.die.net/man/8/ldconfig)
 
 ```sh
+# check 
+sudo ldconfig -v |grep /usr/local/lib
+# add if not available
 sudo ldconfig /usr/local/lib
 ```
 
@@ -39,6 +42,15 @@ make
 sudo make install
 ```
 
+**gpiod**
+
+```shell
+#for libs
+sudo apt install gpiod
+#for dev
+sudo apt install libgpiod-dev
+```
+
 
 
 **libcurl**
@@ -46,6 +58,9 @@ sudo make install
 https://curl.se/libcurl/c/http-post.html
 
 ```bash
+#for libs
+sudo apt install libcurl4
+#for dev
 sudo apt install libcurl4-openssl-dev
 ```
 
@@ -56,7 +71,10 @@ sudo apt install libcurl4-openssl-dev
 https://libmodbus.org/getting_started/
 
 ```bash
+#for libs
 sudo apt install libmodbus5
+#for dev
+sudo apt install libmodbus-dev
 
 or
 
@@ -67,6 +85,18 @@ cd libmodbus-3.1.8
 make
 sudo make install
 ```
+
+
+
+**Check for headers**
+
+```shell
+sudo find / -name curl.h 
+sudo find / -name modbus.h 
+sudo find / -name gpiod.hpp
+```
+
+
 
 
 

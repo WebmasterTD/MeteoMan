@@ -2,12 +2,10 @@
 #define __TIMER_H__
 #include "meteoman.h"
 #include <string>
-#include "INIReader.h"
 
 class timer
 {
     int64_t m_nWaitTime;
-    INIReader m_oConfReader;
 public:
     ReturnCode init(const std::string& sSection);
     void wait();

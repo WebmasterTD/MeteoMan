@@ -1,22 +1,18 @@
 #ifndef __BUCKET_H__
 #define __BUCKET_H__
 #include "meteoman.h"
-// #include <gpiod.h>
-#include <pigpio.h>
-#include "INIReader.h"
+#include <gpiod.hpp>
 
 class bucket
 {
 public:
+    bucket();
     ~bucket();
     ReturnCode init(const std::string& sSection);
     ReturnCode read(float& fRain);
     
 private:
-    static uint32_t m_nCounter;
-    static void gpioAlertFunc(int gpio, int level, uint32_t tick);
-    static unsigned int m_nPinGpio;
-    INIReader m_oConfReader;
-
+    gpiod::chip m_oChip;
+    gpiod::line m_oLine;
 };
 #endif
