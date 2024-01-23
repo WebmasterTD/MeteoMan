@@ -4,17 +4,8 @@
 #include "http_comm.h"
 #include "bucket.h"
 #include "traffic_light.h"
-#include "timer.h"
 #include "tick.h"
-
-#define INIT_OK(x)                                             \
-    {                                                          \
-        int _ret = x;                                          \
-        if (_ret < 0)                                          \
-        {                                                      \
-            fmt::println(stderr, "err: {}", _ret) return _ret; \
-        }                                                      \
-    }
+#include "ring_buffer.h"
 
 class Logic
 {
@@ -25,17 +16,20 @@ public:
 private:
     // MODBUS
     cwt_modbus m_oSensor;
+    tick m_oSensorTick;
+    ring_buffer<float, 100> m_oTempData;
+    ring_buffer<float, 100> m_oHumidData;
 
+    // RAIN
     bucket m_oBucket;
-    
+    float m_oRainData;
+
+    // TRAFFIC LIGHT
     traffic_light m_oTrafficLight;
-    int state;
 
     // HTTP
     http_comm m_oHttp;
-    http_data m_oData;
-    std::future<ReturnCode> m_oHttpReply;
-
+    tick m_oHttpTick;
 };
 
 #endif //__LOGIC_H__

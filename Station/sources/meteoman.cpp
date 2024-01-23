@@ -8,11 +8,11 @@ using namespace std::chrono;
 
 void InterruptHandler(int signum)
 {
-    fmt::println(stderr, "\ntime to exit!");
+    fmt::println(stderr, "\ntime to exit! with code {}", signum);
     exit(0);
 }
 
-int main(int argc, char *argv[])
+int main(void)
 {
     
     tick main_tick;

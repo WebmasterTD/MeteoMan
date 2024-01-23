@@ -8,7 +8,7 @@
 class cwt_modbus
 {
 private:
-    modbus_t *modbus_ctx;
+    modbus_t* modbus_ctx;
     uint16_t reg_buf[2];
 public:
     cwt_modbus(): modbus_ctx(NULL) {};

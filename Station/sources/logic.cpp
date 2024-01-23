@@ -1,4 +1,5 @@
 #include "logic.h"
+#include "INIReader.h"
 #include <fmt/core.h>
 
 ReturnCode Logic::init()
@@ -11,29 +12,44 @@ ReturnCode Logic::init()
         return ReturnCode::ERROR;
     if (m_oTrafficLight.init("TRAFFIC_LIGHT") == ReturnCode::ERROR)
         return ReturnCode::ERROR;
-    state = 0;
+
+    INIReader ConfReader("config.ini");
+
+    struct timeval sensor_period = {};
+    struct timeval http_period = {};
+    sensor_period.tv_sec = ConfReader.GetInteger("LOGIC", "sensor_s", 5);
+    http_period.tv_sec = ConfReader.GetInteger("LOGIC", "http_s", 300);
+
+    m_oSensorTick.init(sensor_period, false);
+    m_oHttpTick.init(http_period, false);
     return ReturnCode::OK;
 }
 
 void Logic::loop()
 {
-    // m_oBucket.read(m_oData.rain);
-    m_oSensor.read_all(m_oData.humidity, m_oData.temperature);
-    
+    m_oTrafficLight.clear();
 
-    if (m_oHttp.Timer.expired())
+    m_oBucket.read(m_oRainData);
+
+    if (m_oSensorTick.expired())
     {
-        m_oData.timestamp = time(nullptr);
-        m_oHttp.send_data(m_oData);
+        float temp = 0.0;
+        float humid = 0.0;
+        m_oSensor.read_all(humid, temp);
+        m_oTempData.add_value(temp);
+        m_oHumidData.add_value(humid);
+        m_oTrafficLight.Yellow(true);
     }
-
-    // if (state++ % 2)
-    // {
-    //     m_oTrafficLight.set_state(traffic_light::XXX);
-    //     state = 0;
-    // }
-    // else
-    // {
-    //     m_oTrafficLight.set_state(traffic_light::RXX);
-    // }
+    
+    if (m_oHttpTick.expired())
+    {
+        http_data data = {};
+        data.timestamp = time(nullptr);
+        data.temperature = m_oTempData.average();
+        data.humidity = m_oHumidData.average();
+        data.rain = m_oRainData;
+        m_oHttp.send_data(data);
+        m_oTrafficLight.Green(true);
+        m_oRainData = 0.0;
+    }
 }

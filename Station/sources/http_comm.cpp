@@ -13,7 +13,6 @@ http_comm::~http_comm()
 
 void http_comm::thread_task(http_task_data *task)
 {
-    fmt::println("From another thread!");
     CURL *curl;
     curl = curl_easy_init();
 
@@ -26,8 +25,6 @@ void http_comm::thread_task(http_task_data *task)
             {
                 http_data data = task->msg_q.front();
                 task->msg_q.pop();
-
-                fmt::println("http data recieved!");
 
                 curl_easy_reset(curl);
                 curl_easy_setopt(curl, CURLOPT_CUSTOMREQUEST, "POST");
@@ -63,14 +60,6 @@ void http_comm::thread_task(http_task_data *task)
 ReturnCode http_comm::init(const std::string &sSection)
 {
     INIReader ConfReader("config.ini");
-    // m_sUrl = ConfReader.Get(sSection, "url", "");
-    m_nIntervalSec = ConfReader.GetInteger(sSection, "interval_s", 60);
-
-    struct timeval period
-    {
-        .tv_sec = m_nIntervalSec, .tv_usec = 0
-    };
-    Timer.init(period, false);
     sem_init(&m_pTaskData->msg_sem, 1, 0);
     m_pTaskData->url = ConfReader.Get(sSection, "url", "");
     m_pTaskData->run = true;

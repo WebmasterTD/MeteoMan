@@ -12,6 +12,7 @@ public:
     ReturnCode read(float& fRain);
     
 private:
+    bool m_bState; 
     gpiod::chip m_oChip;
     gpiod::line m_oLine;
 };

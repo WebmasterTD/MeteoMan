@@ -2,10 +2,6 @@
 #include "INIReader.h"
 #include <fmt/core.h>
 
-#define GREEN_MASK  (1 << 0)
-#define YELLOW_MASK (1 << 1)
-#define RED_MASK    (1 << 2)
-
 traffic_light::traffic_light():
 m_oChip("gpiochip0")
 {
@@ -14,9 +10,9 @@ m_oChip("gpiochip0")
 ReturnCode traffic_light::init(const std::string& sSection)
 {
     INIReader ConfReader(CONFIG_FILENAME);
-    uint32_t GreenPin = ConfReader.GetInteger(sSection, "green_led", -1);
-    uint32_t YellowPin = ConfReader.GetInteger(sSection, "yellow_led", -1);
-    uint32_t RedPin = ConfReader.GetInteger(sSection, "red_led", -1);
+    int32_t GreenPin = ConfReader.GetInteger(sSection, "green_led", -1);
+    int32_t YellowPin = ConfReader.GetInteger(sSection, "yellow_led", -1);
+    int32_t RedPin = ConfReader.GetInteger(sSection, "red_led", -1);
     if ((GreenPin == -1) || (YellowPin == -1) || (RedPin == -1))
     {
         fmt::println(stderr, "Failed INI read");
@@ -29,23 +25,43 @@ ReturnCode traffic_light::init(const std::string& sSection)
     m_oYellowLed = m_oChip.get_line(YellowPin);
     m_oRedLed = m_oChip.get_line(RedPin);
 
-    m_oGreenLed.request({"traffic_light", gpiod::line_request::DIRECTION_OUTPUT}, 0);  
-    m_oYellowLed.request({"traffic_light", gpiod::line_request::DIRECTION_OUTPUT}, 0);  
-    m_oRedLed.request({"traffic_light", gpiod::line_request::DIRECTION_OUTPUT}, 0);  
+    m_oGreenLed.request({"traffic_light", gpiod::line_request::DIRECTION_OUTPUT, 0}, 0);  
+    m_oYellowLed.request({"traffic_light", gpiod::line_request::DIRECTION_OUTPUT, 0}, 0);  
+    m_oRedLed.request({"traffic_light", gpiod::line_request::DIRECTION_OUTPUT, 0}, 0);  
 
-    set_state(state::XXX);
+    return clear();
+}
+
+ReturnCode traffic_light::clear()
+{
+    m_oRedLed.set_value(false);
+    m_oYellowLed.set_value(false);
+    m_oGreenLed.set_value(false);
+
     return ReturnCode::OK;
 }
 
-ReturnCode traffic_light::set_state(const state light_state)
+ReturnCode traffic_light::Green(bool state)
 {
-    m_oRedLed.set_value(light_state & RED_MASK);
-    m_oYellowLed.set_value(light_state & YELLOW_MASK);
-    m_oGreenLed.set_value(light_state & GREEN_MASK);
+    m_oGreenLed.set_value(state);
+    return ReturnCode::OK;
+}
 
+ReturnCode traffic_light::Yellow(bool state)
+{
+    m_oYellowLed.set_value(state);
+    return ReturnCode::OK;
+}
+
+ReturnCode traffic_light::Red(bool state)
+{
+    m_oRedLed.set_value(state);
     return ReturnCode::OK;
 }
 
 traffic_light::~traffic_light()
 {
+    m_oRedLed.release();
+    m_oYellowLed.release();
+    m_oGreenLed.release();
 }

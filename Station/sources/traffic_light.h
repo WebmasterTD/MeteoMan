@@ -6,21 +6,13 @@
 class traffic_light
 {
 public:
-    enum state
-    {
-        XXX = 0x0,
-        XXG = 0x1,  
-        XYX = 0x2,  
-        XYG = 0x3, 
-        RXX = 0x4,  
-        RXG = 0x5, 
-        RYX = 0x6, 
-        RYG = 0x7, 
-    };
     traffic_light();
     ~traffic_light();
     ReturnCode init(const std::string& sSection);
-    ReturnCode set_state(const state light_state);
+    ReturnCode clear();
+    ReturnCode Red(bool state);
+    ReturnCode Yellow(bool state);
+    ReturnCode Green(bool state);
 private:
     gpiod::chip m_oChip;
     gpiod::line m_oGreenLed;
