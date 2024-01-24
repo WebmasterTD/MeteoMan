@@ -4,18 +4,27 @@
         {
             "name": "mac2rpi",
             "displayName": "Mac to RaspberryPi",
-            "description": "Sets Ninja generator, build and install directory",
             "generator": "Ninja",
             "binaryDir": "${sourceDir}/out/build/${presetName}",
             "cacheVariables": {
                 "CMAKE_TOOLCHAIN_FILE": "/Users/akosmelczer/raspberry-sysroot/new/raspberry_clang.cmake",
+                "CMAKE_BUILD_TYPE": "Debug"
+            }
+        },
+        {
+            "name": "linux2rpi",
+            "displayName": "Linux to RaspberryPi",
+            "generator": "Ninja",
+            "binaryDir": "${sourceDir}/out/build/${presetName}",
+            "cacheVariables": {
+                "CMAKE_TOOLCHAIN_FILE": "/home/akos/new/raspberry_clang.cmake",
+                "CMAKE_BUILD_TYPE": "Debug",
                 "CMAKE_VERBOSE_MAKEFILE": "ON"
             }
         },
         {
             "name": "raspberrypi",
             "displayName": "RaspberryPi",
-            "description": "Sets Ninja generator, build and install directory",
             "generator": "Ninja",
             "binaryDir": "${sourceDir}/out/build/${presetName}",
             "cacheVariables": {
@@ -36,6 +45,20 @@
             "description": "",
             "displayName": "Release",
             "configurePreset": "mac2rpi",
+            "configuration": "Release"
+        },
+        {
+            "name": "linux_rpi_debug",
+            "description": "",
+            "displayName": "Debug",
+            "configurePreset": "linux2rpi",
+            "configuration": "Debug"
+        },
+        {
+            "name": "linux_rpi_release",
+            "description": "",
+            "displayName": "Release",
+            "configurePreset": "linux2rpi",
             "configuration": "Release"
         }
     ]

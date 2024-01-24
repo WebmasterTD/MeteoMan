@@ -7,7 +7,26 @@ project(MeteoMan
 include(GNUInstallDirs)
 include(FetchContent)
 
-add_compile_options(-Wall -Wextra -pedantic)
+add_compile_options(
+    -Wall
+    -Wextra
+    -Wshadow
+    -Wnon-virtual-dtor
+    -pedantic
+
+    -Wold-style-cast
+    -Wcast-align
+    -Wunused
+    -Woverloaded-virtual
+    -Wpedantic
+    -Wconversion
+    -Wsign-conversion
+    -Wmisleading-indentation
+    -Wnull-dereference
+    -Wdouble-promotion
+    -Wformat=2
+    -Wimplicit-fallthrough
+)
 
 FetchContent_Declare(external-fmt
     GIT_REPOSITORY  https://github.com/fmtlib/fmt

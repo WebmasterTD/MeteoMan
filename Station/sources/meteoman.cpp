@@ -23,7 +23,7 @@ int main(void)
     }
     
     INIReader ConfReader(CONFIG_FILENAME);
-    uint32_t interval_ms = ConfReader.GetInteger("MAIN", "interval_ms", 100);
+    int32_t interval_ms = ConfReader.GetInteger("MAIN", "interval_ms", 100);
 
     struct timeval period = {};
     if (interval_ms >= 1000)

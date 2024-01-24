@@ -14,7 +14,7 @@ public:
     {
         if (count < S)
         {
-            count += 1.0;
+            count++;
         }
         buffer[index] = value;
         index = (index + 1) % S;
@@ -22,8 +22,8 @@ public:
 
     T average()
     {
-        T sum = std::accumulate(buffer.begin(), buffer.end(), 0.0);
-        return sum / count;
+        T sum = std::accumulate(buffer.begin(), buffer.end(), 0.0f);
+        return sum / static_cast<float>(count);
     }
 
 private:
