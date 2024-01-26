@@ -13,7 +13,7 @@ ReturnCode Logic::init()
     if (m_oTrafficLight.init("TRAFFIC_LIGHT") == ReturnCode::ERROR)
         return ReturnCode::ERROR;
 
-    INIReader ConfReader("config.ini");
+    INIReader ConfReader(CONFIG_FILE_NAME);
 
     struct timeval sensor_period = {};
     struct timeval http_period = {};

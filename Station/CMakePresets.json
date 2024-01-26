@@ -8,7 +8,10 @@
             "binaryDir": "${sourceDir}/out/build/${presetName}",
             "cacheVariables": {
                 "CMAKE_TOOLCHAIN_FILE": "/Users/akosmelczer/raspberry-sysroot/new/raspberry_clang.cmake",
-                "CMAKE_BUILD_TYPE": "Debug"
+                "CMAKE_INSTALL_PREFIX": "${sourceDir}/out/install/${presetName}",
+                "CMAKE_BUILD_TYPE": "Debug",
+                "CMAKE_VERBOSE_MAKEFILE": "OFF",
+                "CMAKE_EXPORT_COMPILE_COMMANDS": "ON"
             }
         },
         {
@@ -18,8 +21,9 @@
             "binaryDir": "${sourceDir}/out/build/${presetName}",
             "cacheVariables": {
                 "CMAKE_TOOLCHAIN_FILE": "/home/akos/new/raspberry_clang.cmake",
+                "CMAKE_INSTALL_PREFIX": "${sourceDir}/out/install/${presetName}",
                 "CMAKE_BUILD_TYPE": "Debug",
-                "CMAKE_VERBOSE_MAKEFILE": "ON"
+                "CMAKE_VERBOSE_MAKEFILE": "OFF"
             }
         },
         {
@@ -28,38 +32,10 @@
             "generator": "Ninja",
             "binaryDir": "${sourceDir}/out/build/${presetName}",
             "cacheVariables": {
-                "CMAKE_INSTALL_PREFIX": "${sourceDir}/out/install/${presetName}"
+                "CMAKE_INSTALL_PREFIX": "${sourceDir}/out/install/${presetName}",
+                "CMAKE_BUILD_TYPE": "Debug",
+                "CMAKE_VERBOSE_MAKEFILE": "OFF"
             }
-        }
-    ],
-    "buildPresets": [
-        {
-            "name": "mac_rpi_debug",
-            "description": "",
-            "displayName": "Debug",
-            "configurePreset": "mac2rpi",
-            "configuration": "Debug"
-        },
-        {
-            "name": "mac_rpi_release",
-            "description": "",
-            "displayName": "Release",
-            "configurePreset": "mac2rpi",
-            "configuration": "Release"
-        },
-        {
-            "name": "linux_rpi_debug",
-            "description": "",
-            "displayName": "Debug",
-            "configurePreset": "linux2rpi",
-            "configuration": "Debug"
-        },
-        {
-            "name": "linux_rpi_release",
-            "description": "",
-            "displayName": "Release",
-            "configurePreset": "linux2rpi",
-            "configuration": "Release"
         }
     ]
 }

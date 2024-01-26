@@ -29,19 +29,6 @@ sudo ldconfig /usr/local/lib
 
 
 
-**pigpio**
-
-http://abyz.me.uk/rpi/pigpio/download.html
-
-```bash
-sudo apt install python3-distutils
-wget https://github.com/joan2937/pigpio/archive/master.zip
-unzip master.zip
-cd pigpio-master
-make
-sudo make install
-```
-
 **gpiod**
 
 ```shell
@@ -130,3 +117,18 @@ cd build/rpi-debug
 ninja
 ```
 
+
+
+## Package
+
+
+
+
+
+## Install service
+
+copy `meteoman.service` to:
+
+```shell
+/etc/systemd/system
+```

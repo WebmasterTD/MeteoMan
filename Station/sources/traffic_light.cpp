@@ -9,7 +9,7 @@ m_oChip("gpiochip0")
 
 ReturnCode traffic_light::init(const std::string& sSection)
 {
-    INIReader ConfReader(CONFIG_FILENAME);
+    INIReader ConfReader(CONFIG_FILE_NAME);
     uint32_t GreenPin = ConfReader.GetInteger(sSection, "green_led", 0);
     uint32_t YellowPin = ConfReader.GetInteger(sSection, "yellow_led", 0);
     uint32_t RedPin = ConfReader.GetInteger(sSection, "red_led", 0);
@@ -61,7 +61,10 @@ ReturnCode traffic_light::Red(bool state)
 
 traffic_light::~traffic_light()
 {
-    m_oRedLed.release();
-    m_oYellowLed.release();
-    m_oGreenLed.release();
+    if (m_oRedLed.is_requested())
+        m_oRedLed.release();
+    if (m_oYellowLed.is_requested())
+        m_oYellowLed.release();
+    if (m_oGreenLed.is_requested())
+        m_oGreenLed.release();
 }

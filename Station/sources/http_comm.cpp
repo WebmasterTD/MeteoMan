@@ -59,7 +59,7 @@ void http_comm::thread_task(http_task_data *task)
 
 ReturnCode http_comm::init(const std::string &sSection)
 {
-    INIReader ConfReader("config.ini");
+    INIReader ConfReader(CONFIG_FILE_NAME);
     sem_init(&m_pTaskData->msg_sem, 1, 0);
     m_pTaskData->url = ConfReader.Get(sSection, "url", "");
     m_pTaskData->run = true;
