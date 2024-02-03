@@ -121,7 +121,9 @@ ninja
 
 ## Package
 
-
+```shell
+cpack
+```
 
 
 
@@ -132,3 +134,23 @@ copy `meteoman.service` to:
 ```shell
 /etc/systemd/system
 ```
+
+
+
+
+
+## Sequence
+
+
+
+```mermaid
+sequenceDiagram
+	participant CWT_Sensor
+	participant HTTP_task
+	participant Rain_Bucket
+	
+	CWT_Sensor ->>+ HTTP_task: init
+	HTTP_task ->>- Rain_Bucket: resp
+	
+```
+

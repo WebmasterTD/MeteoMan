@@ -75,11 +75,13 @@ add_custom_command(TARGET meteoman_app
         ${CMAKE_SOURCE_DIR}/compile_commands.json
 )
 
-install(TARGETS meteoman_app RUNTIME)
+install(TARGETS meteoman_app DESTINATION /home/akos/test)
+install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/package/test.service DESTINATION /etc/systemd/system)
 
 # set(CPACK_GENERATOR "DEB")
 # set(CPACK_DEBIAN_PACKAGE_ARCHITECTURE "armhf")
 # set(CPACK_DEBIAN_PACKAGE_NAME "MeteoMan")
 # set(CPACK_DEBIAN_PACKAGE_MAINTAINER "akos")
 # set(CPACK_DEBIAN_PACKAGE_DEPENDS "gpiod,libcurl4,libmodbus5")
+set(CPACK_DEBIAN_PACKAGE_CONTROL_EXTRA, ${CMAKE_CURRENT_SOURCE_DIR}/package/postinst)
 # include(CPack)
