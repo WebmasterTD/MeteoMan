@@ -4,16 +4,18 @@ Docker php mysql tutorial:
 
 https://doc4dev.com/en/create-a-web-site-php-apache-mysql-in-5-minutes-with-docker/
 
+https://github.com/jcarlosroldan/oink/tree/main
+
 
 
 ## SQL
 
 ```sql
-CREATE TABLE meteoman.MeasuredData (
-	`timestamp` DATETIME NULL,
-	temperature FLOAT DEFAULT 0.0 NULL,
-	humidity FLOAT DEFAULT 0.0 NULL,
-	rainfall FLOAT DEFAULT 0.0 NULL
+CREATE TABLE `MeasuredData` (
+  `timestamp` datetime DEFAULT CURRENT_TIMESTAMP,
+  `temperature` float DEFAULT '0',
+  `humidity` float DEFAULT '0',
+  `rainfall` float DEFAULT '0'
 )
 ```
 
