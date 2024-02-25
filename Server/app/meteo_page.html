@@ -10,15 +10,45 @@
 
 <body>
     <h1>MeteoMan</h1>
+    
+    <button type="button">All Data</button>
+    <button type="button">Last Year</button>
+    <button type="button">Last Month</button>
+    
+    <input type="date" name="trip-start" />
 
-    <p>Temperature</p>
-    <div id="temp_graph""></div>
-    
-    <p>Humidity</p>
-    <div id="humid_graph"></div>
-    
-    <p>Percipitation</p>
-    <div id="rain_graph"></div>
+    <table>
+        <tr>
+            <td>
+                <p>Temperature</p>
+                <div id="temp_graph" class="graph"></div>
+            </td>
+            <td>
+                min: 10 °C<br>
+                max: 25 °C<br>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <p>Humidity</p>
+                <div id="humid_graph" class="graph"></div>
+            </td>
+            <td>
+                min: 10 %<br>
+                max: 25 %<br>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <p>Percipitation</p>
+                <div id="rain_graph" class="graph"></div>
+            </td>
+            <td>
+                total: 10 mm<br>
+            </td>
+        </tr>
+    </table>
+
 
     <script type="text/javascript" src="meteo_graph.js"></script>
 </body>
