@@ -20,6 +20,7 @@ ReturnCode Logic::init()
     sensor_period.tv_sec = ConfReader.GetInteger("LOGIC", "sensor_s", 5);
     http_period.tv_sec = ConfReader.GetInteger("LOGIC", "http_s", 300);
 
+    m_oRainData = 0.0;
     m_oSensorTick.init(sensor_period, false);
     m_oHttpTick.init(http_period, false);
     return ReturnCode::OK;

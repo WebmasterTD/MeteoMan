@@ -3,33 +3,26 @@
 #include <array>
 #include <numeric>
 
-template<typename T, size_t S>
-class ring_buffer
-{
+template <typename T, std::size_t S> class ring_buffer {
 public:
-    ring_buffer():
-     buffer{}
-    {}
-    void add_value(T value)
-    {
-        if (count < S)
-        {
-            count++;
-        }
-        buffer[index] = value;
-        index = (index + 1) % S;
+  ring_buffer() : buffer{} {}
+  void add_value(T value) {
+    if (count < S) {
+      count++;
     }
+    buffer[index] = value;
+    index = (index + 1) % S;
+  }
 
-    T average()
-    {
-        T sum = std::accumulate(buffer.begin(), buffer.end(), 0.0f);
-        return sum / static_cast<float>(count);
-    }
+  T average() {
+    T sum = std::accumulate(buffer.begin(), buffer.end(), 0.0f);
+    return sum / static_cast<float>(count);
+  }
 
 private:
-    std::array<T, S> buffer;
-    size_t count = 0;
-    size_t index = 0;
+  std::array<T, S> buffer;
+  std::size_t count = 0;
+  std::size_t index = 0;
 };
 
 #endif
