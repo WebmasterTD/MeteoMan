@@ -11,7 +11,7 @@ bucket::bucket():
 ReturnCode bucket::init(const std::string& sSection)
 {
     INIReader ConfReader(CONFIG_FILE_NAME);
-    uint32_t pin = ConfReader.GetInteger(sSection, "test_pin", 0);
+    uint32_t pin = static_cast<uint32_t>(ConfReader.GetInteger(sSection, "test_pin", 0));
     m_oLine = m_oChip.get_line(pin);
     m_oLine.request({"rain_bucket", gpiod::line_request::DIRECTION_INPUT, 0});
     return ReturnCode::OK;

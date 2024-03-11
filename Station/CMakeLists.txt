@@ -13,18 +13,18 @@ add_compile_options(
     -Wnon-virtual-dtor
     -pedantic
 
-    # -Wold-style-cast
-    # -Wcast-align
-    # -Wunused
-    # -Woverloaded-virtual
-    # -Wpedantic
-    # -Wconversion
-    # -Wsign-conversion
-    # -Wmisleading-indentation
-    # -Wnull-dereference
-    # -Wdouble-promotion
-    # -Wformat=2
-    # -Wimplicit-fallthrough
+    -Wold-style-cast
+    -Wcast-align
+    -Wunused
+    -Woverloaded-virtual
+    -Wpedantic
+    -Wconversion
+    -Wsign-conversion
+    -Wmisleading-indentation
+    -Wnull-dereference
+    -Wdouble-promotion
+    -Wformat=2
+    -Wimplicit-fallthrough
 )
 
 install(FILES config/meteoman_conf.ini
@@ -44,7 +44,7 @@ set(CMAKE_THREAD_PREFER_PTHREAD TRUE)
 set(THREADS_PREFER_PTHREAD_FLAG TRUE)
 find_package(Threads REQUIRED)
 
-set(meteo_src_files 
+set(meteo_src_files
     sources/bucket.cpp
     sources/cwt_modbus.cpp
     sources/http_comm.cpp

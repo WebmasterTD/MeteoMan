@@ -9,6 +9,8 @@ void InterruptHandler(int signum) {
 }
 
 int main(void) {
+  signal(SIGINT, InterruptHandler);
+
   fmt::println("CONFIG FILE PATH: {}", CONFIG_FILE_NAME);
 
   INIReader ini_file = INIReader(CONFIG_FILE_NAME);
@@ -38,8 +40,6 @@ int main(void) {
   if (main_tick.init(period, true) == ReturnCode::ERROR) {
     return -1;
   }
-
-  signal(SIGINT, InterruptHandler);
 
   while (1) {
     main_logic.loop();
